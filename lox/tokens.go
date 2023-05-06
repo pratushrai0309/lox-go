@@ -21,3 +21,12 @@ func newToken(ttype TokenType, lexeme string, literal string, line int) Token {
 func (t Token) toString() string {
 	return fmt.Sprintf("{ ttype: %d, lexeme: %s, literal: %s, line: %d }", t.ttype, t.lexeme, t.literal, t.line)
 }
+
+func eof(line int) Token {
+	return Token{
+		ttype:   EOF,
+		lexeme:  "",
+		literal: "",
+		line:    line,
+	}
+}
