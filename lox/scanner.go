@@ -29,7 +29,29 @@ func (s Scanner) scanTokens() []Token {
 }
 
 func (s Scanner) scanToken() {
-
+	var c rune = s.advance()
+	switch c {
+	case '(':
+		s.addToken(LeftParen, "")
+	case ')':
+		s.addToken(RightParen, "")
+	case '{':
+		s.addToken(LeftBrace, "")
+	case '}':
+		s.addToken(LeftBrace, "")
+	case ',':
+		s.addToken(Comma, "")
+	case '.':
+		s.addToken(Dot, "")
+	case '-':
+		s.addToken(Minus, "")
+	case '+':
+		s.addToken(Plus, "")
+	case ';':
+		s.addToken(SemiColon, "")
+	case '*':
+		s.addToken(Star, "")
+	}
 }
 
 func (s Scanner) isAtEnd() bool {
@@ -39,4 +61,9 @@ func (s Scanner) isAtEnd() bool {
 func (s Scanner) advance() rune {
 	nextPos := s.current + 1
 	return rune(s.source[nextPos])
+}
+
+func (s Scanner) addToken(ttype TokenType, literal string) {
+	var text string = s.source[s.start:s.current]
+	s.tokens = append(s.tokens, newToken(ttype, text, literal, s.line))
 }
