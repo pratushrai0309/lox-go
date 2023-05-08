@@ -35,3 +35,8 @@ func (s Scanner) scanToken() {
 func (s Scanner) isAtEnd() bool {
 	return s.current >= len(s.source)
 }
+
+func (s Scanner) advance() rune {
+	nextPos := s.current + 1
+	return rune(s.source[nextPos])
+}
