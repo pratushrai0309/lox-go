@@ -51,7 +51,10 @@ func (s Scanner) scanToken() {
 		s.addToken(SemiColon, "")
 	case '*':
 		s.addToken(Star, "")
+	default:
+		error(s.line, "Unexpected character.")
 	}
+
 }
 
 func (s Scanner) isAtEnd() bool {
