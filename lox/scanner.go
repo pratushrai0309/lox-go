@@ -75,6 +75,20 @@ func (s Scanner) scanToken() {
 		} else {
 			s.addToken(LessEqual, "")
 		}
+	case '/':
+		if s.match('/') {
+			for s.peek() != '\n' && !s.isAtEnd() {
+				s.advance()
+			}
+		} else {
+			s.addToken(Slash, "")
+		}
+	case ' ':
+	case '\t':
+		break
+	case '\r':
+	case '\n':
+		s.line++
 	default:
 		error(s.line, "Unexpected character.")
 	}
@@ -104,4 +118,11 @@ func (s Scanner) match(expected rune) bool {
 	}
 	s.current++
 	return true
+}
+
+func (s Scanner) peek() rune {
+	if s.isAtEnd() {
+		return 0
+	}
+	return rune(s.source[s.current])
 }
