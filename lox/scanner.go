@@ -83,6 +83,9 @@ func (s Scanner) scanToken() {
 		} else {
 			s.addToken(Slash, "")
 		}
+	case '"':
+		s.string()
+
 	case ' ':
 	case '\t':
 		break
@@ -125,4 +128,21 @@ func (s Scanner) peek() rune {
 		return 0
 	}
 	return rune(s.source[s.current])
+}
+
+func (s Scanner) string() {
+	for s.peek() != '"' && !s.isAtEnd() {
+		if s.peek() == '\n' {
+			s.line++
+		}
+		s.advance()
+	}
+	if s.isAtEnd() {
+		error(s.line, "Unterminated string")
+	}
+
+	s.advance()
+
+	var value string = s.source[(s.start + 1):(s.current - 1)]
+	s.addToken(String, value)
 }
